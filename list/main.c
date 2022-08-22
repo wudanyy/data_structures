@@ -2,86 +2,56 @@
 #include <stdlib.h>
 #include "list.h"
 
-int IsEmpty(List L)
+void InitList(List L)
 {
-	return L->Next == NULL;
-}
+	int i;
+	//int d;
 
-int IsLast(Position P, List L)
-{
-	return P->Next == NULL;
-}
-
-List MakeEmpty()
-{
-	List L;
-	L = (List)malloc(sizeof(struct Node));
-	L->Next = NULL;
-	return L;
-}
-
-void Insert(ElementType X, List L, Position P)
-{
-	Position TmpCell;
-
-	TmpCell = malloc(sizeof(struct Node));
-	if(TmpCell == NULL)
-		printf("error!");
-		// FatalError("Out of space!!!");
-	
-	TmpCell->Element = X;
-	TmpCell->Next = P->Next;
-	P->Next = TmpCell;
-}
-
-Position Find(ElementType X, List L)
-{
-	Position P;
-
-	P = L->Next;
-	while(P != NULL && P->Element != X)
-		P = P->Next;
-
-	return P;
-}
-
-Position FindPrevious(ElementType X, List L)
-{
-    Position P;
-
-    P = L;
-    while(P->Next != NULL && P->Next->Element != X)
-        P = P->Next;
-
-    return P;
-}
-
-void Delete(ElementType X, List L)
-{
-    Position P, TmpCell;
-
-    P = FindPrevious(X, L);
-
-    if (!IsLast(P, L))
-    {
-        TmpCell = P->Next;
-        P->Next = TmpCell->Next;
-        free(TmpCell);
-    }
-}
-
-void DeleteList(List L)
-{
-	Position P;
-	Position Tmp;
-
-	P = L->Next;
-	L->Next = NULL;
-	while(P != NULL)
+	for(i=0; i<=5; i++)
 	{
-		Tmp = P->Next;
-		free(P);
-		P = Tmp;
+		//printf("输入链表的第%d个数据值\n", i+1);
+		//scanf("%d", &d);
+		Position p = (Position)malloc(sizeof(struct Node));
+		p->Element = i+1;
+		p->Next = NULL;
+		L->Next = p;
+		L = p;
 	}
 }
 
+void PrintList(List L)
+{
+	printf("输出链表值\n");
+	while(L->Next != NULL)
+	{
+		L = L->Next;
+		printf("%d\t", L->Element);
+	}
+    printf("\n");
+}
+
+int main()
+{
+	List l = MakeEmpty();
+    InitList(l);
+    PrintList(l);
+
+    int e = IsEmpty(l);
+	printf("链表是否为空：%d\n", e);
+
+    printf("5后面插入9\n");
+    Position p2 = Find(5, l);
+    Insert(9, l, p2);
+    PrintList(l);
+    Position p6 = Find(6, l);
+    printf("6是否是last: %d\n", IsLast(p6, l));
+    printf("删除6\n");
+    Delete(6, l);
+    PrintList(l);
+    printf("删除整个链表\n");
+    DeleteList(l);
+    PrintList(l);
+
+	
+	return 0;
+}
