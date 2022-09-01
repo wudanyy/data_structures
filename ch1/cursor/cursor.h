@@ -1,5 +1,6 @@
 #ifndef _cursor_H
 
+typedef int ElementType;
 typedef int PtrToNode;
 typedef PtrToNode List;
 typedef PtrToNode Position;
@@ -21,10 +22,13 @@ ElementType Retrieve(const Position P);
 
 #endif
 
+#define SpaceSize 10
+
 struct Node
 {
 	ElementType Element;
 	Position Next;
 };
+
 struct Node CursorSpace[SpaceSize];
 
